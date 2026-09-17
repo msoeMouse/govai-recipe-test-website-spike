@@ -4,7 +4,7 @@ const App = () => {
      * When the button is pressed, take the text in the user textbox and feed it to
      * GovAI. If you can query, return that response and put it in the next textbox
      */
-    const askAI = () => {
+    async function askAI() {
         //help with copilot
         let input = document.getElementById("userInput") as HTMLInputElement | null;
         let responseElement = document.getElementById("aiResponse");
@@ -13,21 +13,25 @@ const App = () => {
         
         const text = input.value.trim();
 
-        if (!text) {
-            responseElement!.innerHTML = "Please enter a question!";
-        } else {
-            responseElement!.innerHTML = "You typed " + text +
-                ",\nbut we haven't implemented a connection to GovAI yet :(";
-        }
-        /*
-        if (input!.nodeValue === null || input!.nodeValue.length === 0) {
-            responseElement!.innerHTML = "Please enter a question!";
-        } else {
-            responseElement!.innerHTML = "We would load here, but we haven't implemented a connection to GovAI yet :(";
-        }
+        try {
+            const response = await fetch("http://localhost:3001/api/ask", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text }),
+            });
 
-         */
-    };
+            if (!text) {
+                responseElement!.innerHTML = "Please enter a question!";
+            } else {
+                responseElement!.innerHTML = response.body + "";
+            }
+        } catch (err) {
+            console.log(err);
+            responseElement!.textContent = "Error occurred! " + err;
+        }
+    }
 
     return (
         <>
