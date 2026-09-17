@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "govai-recipe-test-website",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,8 +19,8 @@
   "keywords": [],
   "author": {
     "name": "Jack Brickl",
-    "email": "",
-    "url": ""
+    "email": "bricklj@msoe.edu",
+    "url": "https://github.com/msoeMouse/"
   },
   "contributors": [],
   "scripts": {

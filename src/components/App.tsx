@@ -6,7 +6,7 @@ const App = () => {
      */
     const askAI = () => {
         //help with copilot
-        let input = document.getElementById("userInput") as HTMLInputElement | null;;
+        let input = document.getElementById("userInput") as HTMLInputElement | null;
         let responseElement = document.getElementById("aiResponse");
         
         if (!input || !responseElement) return;
