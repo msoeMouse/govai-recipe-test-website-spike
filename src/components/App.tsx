@@ -13,23 +13,33 @@ const App = () => {
         
         const text = input.value.trim();
 
+        if (!text) {
+            responseElement.textContent = "Please enter a question!";
+            return;
+        }
+
         try {
             const response = await fetch("http://localhost:3001/api/ask", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ text }),
+                body: JSON.stringify({ question: text }),
             });
+            const data: { answer?: string; error?: string } = await response.json();
 
-            if (!text) {
-                responseElement!.innerHTML = "Please enter a question!";
-            } else {
-                responseElement!.innerHTML = response.body + "";
+            if (!response.ok) {
+                throw new Error(data.error || "The AI service could not complete the request.");
             }
+
+            if (!data.answer) {
+                throw new Error("The AI service returned an empty response.");
+            }
+
+            responseElement.textContent = data.answer;
         } catch (err) {
             console.log(err);
-            responseElement!.textContent = "Error occurred! " + err;
+            responseElement.textContent = "Error occurred! " + (err instanceof Error ? err.message : String(err));
         }
     }
 
